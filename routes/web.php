@@ -16,3 +16,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');;
+
+Route::get('/registro', function () {
+    if (Auth::check()) {
+        return redirect()->route('home')->with('addMessage','Registro exitoso ');
+    }
+    return view('registro.registro');
+})->name('registro');
+
+Route::post('usuario', 'RegistroController@crearUsuario');
+
+
+
